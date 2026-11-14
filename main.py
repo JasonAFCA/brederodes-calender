@@ -15,7 +15,9 @@ def get_matches() -> pd.DataFrame:
     response = requests.get(URL, timeout=15)
     response.raise_for_status()
     
-    tables = pd.read_html(StringIO(response.text))
+    tables = pd.read_html(
+        StringIO(response.text),
+        converters={"Datum": str, "Tijd": str})
     
     for table in tables:
         required_columns = {"Datum", "Tijd", "Thuis", "Uit"}
